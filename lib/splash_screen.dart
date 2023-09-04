@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:multi_role_chapter_9/home_screen.dart';
+import 'package:multi_role_chapter_9/login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -18,7 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     debugPrint('Init');
     Timer(Duration(seconds: 4), () {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen(),),);
+      Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen(),),);
     });
   }
   @override
@@ -30,7 +31,12 @@ class _SplashScreenState extends State<SplashScreen> {
       fit: BoxFit.fitHeight,
       imageUrl: "https://images.pexels.com/photos/8451450/pexels-photo-8451450.jpeg?cs=tinysrgb&w=1260&h=750&dpr=1",
       progressIndicatorBuilder: (context, url, downloadProgress) =>
-          CircularProgressIndicator(value: downloadProgress.progress),
+          Center(
+            child: Container(
+              height: 50,
+                width: 50,
+                child: CircularProgressIndicator(value: downloadProgress.progress)),
+          ),
       errorWidget: (context, url, error) => Icon(Icons.error),
         ),
     );
