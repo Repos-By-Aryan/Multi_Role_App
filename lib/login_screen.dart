@@ -13,7 +13,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -21,11 +21,18 @@ class _LoginScreenState extends State<LoginScreen> {
             InkWell(
               onTap: ()async{
                 SharedPreferences sp = await SharedPreferences.getInstance();
+                sp.setString('name', 'Aryan');
+                sp.setInt('age', 20);
+
+
+                debugPrint(sp.getString('name'));
+                debugPrint(sp.getInt('age').toString());
               },
               child: Container(
+
                 height:50,
                 width: double.infinity,
-                color:Colors.deepPurple.shade50,
+                color:Colors.deepPurple.shade200,
                 child: Center(child: Text("Click")),
               ),
             ),

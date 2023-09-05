@@ -2,7 +2,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:multi_role_chapter_9/home_screen.dart';
 import 'package:multi_role_chapter_9/login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -17,7 +16,6 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    debugPrint('Init');
     Timer(Duration(seconds: 4), () {
       Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen(),),);
     });
