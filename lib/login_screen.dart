@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:multi_role_chapter_9/home_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -9,6 +10,10 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
@@ -25,20 +30,35 @@ class _LoginScreenState extends State<LoginScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextFormField(
+              controller: emailController,
+              keyboardType: TextInputType.emailAddress,
               decoration:InputDecoration(
                 label: Text('Email'),
               ),
             ),
-            (screenHeight*0.02).ph,
+            (screenHeight*0.02).ph,//SizedBox Extension
+            TextFormField(
+              controller: passwordController,
+              keyboardType: TextInputType.visiblePassword,
+              obscureText: true,
+              decoration:InputDecoration(
+                label: Text('Password'),
+              ),
+            ),
+            (screenHeight*0.02).ph,//SizedBox Extension
             InkWell(
               onTap: ()async{
-
+                SharedPreferences sp = await SharedPreferences.getInstance();
+                sp.setString('email', emailController.text.toString());
+                // sp.setString('password', passwordController.text.toString());
+                sp.setBool('isLogin', true);
+                Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => HomeScreen()));
               },
               child: Container(
                 height:50,
                 width: double.infinity,
                 color:Colors.deepPurple.shade200,
-                child: Center(child: Text("Click")),
+                child: Center(child: Text("Login")),
               ),
             ),
           ],
