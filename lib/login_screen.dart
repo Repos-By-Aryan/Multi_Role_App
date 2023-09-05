@@ -11,25 +11,30 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Login'),
+        centerTitle: true,
+        elevation: 10,
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            TextFormField(
+              decoration:InputDecoration(
+                label: Text('Email'),
+              ),
+            ),
+            (screenHeight*0.02).ph,
             InkWell(
               onTap: ()async{
-                SharedPreferences sp = await SharedPreferences.getInstance();
-                sp.setString('name', 'Aryan');
-                sp.setInt('age', 20);
 
-
-                debugPrint(sp.getString('name'));
-                debugPrint(sp.getInt('age').toString());
               },
               child: Container(
-
                 height:50,
                 width: double.infinity,
                 color:Colors.deepPurple.shade200,
@@ -41,4 +46,9 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+}
+
+extension Spacing on num{
+  SizedBox get ph => SizedBox(height:toDouble(),);
+  SizedBox get pw => SizedBox(width:toDouble(),);
 }
