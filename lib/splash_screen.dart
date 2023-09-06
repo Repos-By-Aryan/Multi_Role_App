@@ -2,7 +2,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:multi_role_chapter_9/home_screen.dart';
 import 'package:multi_role_chapter_9/login_screen.dart';
+import 'package:multi_role_chapter_9/student_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -16,8 +19,25 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    isLogin();
+  }
+
+  void isLogin()async{
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    bool isLogin = sp.getBool('isLogin') ?? false;
+    String userType = sp.getString('userType')?? '';
+    // ? after datatype ensures that the value can be null
+    //! at the end will check that the value using get method will never be null
     Timer(Duration(seconds: 4), () {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen(),),);
+      if(isLogin){
+        if(userType == 'student'){
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => StudentScreen(),),);
+        }else{
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen(),),);
+      }}
+      else{
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen(),),);
+      }
     });
   }
   @override
