@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:multi_role_chapter_9/admin_screen.dart';
 import 'package:multi_role_chapter_9/getters.dart';
 import 'package:multi_role_chapter_9/home_screen.dart';
 import 'package:multi_role_chapter_9/student_screen.dart';
+import 'package:multi_role_chapter_9/teacher_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -15,6 +17,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  String dropdownValue='';
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +65,31 @@ class _LoginScreenState extends State<LoginScreen> {
                   return null;
                 },
               ),
+              (screenHeight * 0.02).ph,
+              DropdownButtonFormField(
+                validator: (value){
+                  if(value!.isEmpty){
+                    return 'Select User Type';
+                  }
+                  return null;
+                },
+                decoration: InputDecoration(
+                  labelText: 'User Type',
+                ),
+                items: <String>['Admin','Teacher','Student']
+                  .map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(
+                    value,
+                  ),
+                );
+              }).toList(),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    dropdownValue = newValue!;
+                  });
+                },),
               (screenHeight * 0.02).ph, //SizedBox Extension
               InkWell(
                 onTap: () async {
@@ -70,11 +98,21 @@ class _LoginScreenState extends State<LoginScreen> {
                   sp.setString('email', emailController.text.toString());
                   sp.setString('password', passwordController.text.toString());
                   //admin, student, teacher
-                  sp.setString('userType','student');
+                  sp.setString('userType',dropdownValue.toString());
                   sp.setBool('isLogin', true);
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) => StudentScreen()));
+                  String userType = sp.getString('userType')!;
+                  if(userType == 'Student'){
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => StudentScreen(),),);
                   }
+                  else if(userType=='Admin'){
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => AdminScreen(),),);
+                  }
+                  else if(userType =='Teacher'){
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => TeacherScreen(),),);
+                  }
+                  else{
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen(),),);
+                  }}
                 },
                 child: Container(
                   height: 50,
